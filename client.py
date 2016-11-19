@@ -30,10 +30,19 @@ my_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 my_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 my_socket.connect((SERVER, int(PORT)))
 
-print(ip)
 print("Enviando: " + LINE)
 my_socket.send(bytes(LINE, 'utf-8') + b'\r\n')
 data = my_socket.recv(1024)
+
+print('Recibido -- ', data.decode('utf-8'))
+
+response = data.decode('utf-8')
+slices =  response.split()
+if slices[1] == '100' and slices[4] == '180' and slices[7] == '200':
+    method = 'ACK'
+    AutoLINE = method + ' sip:' + datos.split(':')[0] + ' SIP/2.0 \r\n\r\n'
+    print('Enviando: ' + AutoLINE)
+    my_socket.send(bytes(AutoLINE, 'utf-8') + b'\r\n\r\n')
 
 print('Recibido -- ', data.decode('utf-8'))
 print("Terminando socket...")
