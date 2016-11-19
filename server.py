@@ -40,7 +40,7 @@ class EchoHandler(socketserver.DatagramRequestHandler):
             elif metodo == 'BYE':
                 self.wfile.write(b'SIP/2.0 200 OK \r\n\r\n')
             elif metodo == 'ACK':
-                aEjecutar = 'mp32rtp -i ' + IP + '-p 23032 < ' + audio_file
+                aEjecutar = 'mp32rtp -i ' + ip + '-p 23032 < ' + audio_file
                 print ('Vamos a ejecutar', aEjecutar)
                 os.system(aEjecutar)
             elif metodo != 'INVITE' or metodo != 'BYE' or metodo != 'ACK':
