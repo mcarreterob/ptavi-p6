@@ -8,10 +8,13 @@ import socketserver
 import sys
 import os
 
-IP = sys.argv[1]
-PORT = sys.argv[2]
-audio_file = sys.argv[3]
 
+try:
+    IP = sys.argv[1]
+    PORT = sys.argv[2]
+    audio_file = sys.argv[3]
+except IndexError:
+    print('Usage: python server.py IP port audio_file')
 
 class EchoHandler(socketserver.DatagramRequestHandler):
     """
@@ -26,6 +29,7 @@ class EchoHandler(socketserver.DatagramRequestHandler):
             # Leyendo línea a línea lo que nos envía el cliente
             line = self.rfile.read().decode('utf-8')
             line_slices = line.split()
+            # Si no hay más líneas salimos del bucle infinito
             if not line:
                 break
             metodo = line_slices[0]
@@ -33,12 +37,18 @@ class EchoHandler(socketserver.DatagramRequestHandler):
                 self.wfile.write(b'SIP/2.0 100 Trying \r\n\r\n')
                 self.wfile.write(b'SIP/2.0 180 Ring \r\n\r\n')
                 self.wfile.write(b'SIP/2.0 200 OK \r\n\r\n')
-            if metodo == 'BYE':
+            elif metodo == 'BYE':
                 self.wfile.write(b'SIP/2.0 200 OK \r\n\r\n')
+            elif metodo == 'ACK':
+                aEjecutar = 'mp32rtp -i ' + IP + '-p 23032 < ' + audio_file
+                print ('Vamos a ejecutar', aEjecutar)
+                os.system(aEjecutar)
+            elif metodo != 'INVITE' or metodo != 'BYE' or metodo != 'ACK':
+                self.wfile.write(b'SIP/2.0 405 Method Not Allowed \r\n\r\n')
+            else:
+                self.wfile.write(b'SIP/2.0 400 Bad Request')
             #print("El cliente nos manda " + line.decode('utf-8'))
 
-            # Si no hay más líneas salimos del bucle infinito
-            
 
 if __name__ == "__main__":
     # Creamos servidor de eco y escuchamos
