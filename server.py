@@ -16,6 +16,7 @@ try:
 except IndexError:
     print('Usage: python server.py IP port audio_file')
 
+
 class EchoHandler(socketserver.DatagramRequestHandler):
     """
     Echo server class
@@ -28,7 +29,6 @@ class EchoHandler(socketserver.DatagramRequestHandler):
             line = line.decode('utf-8')
             print("El cliente nos manda " + line)
             line_slices = line.split()
-            
             # Si no hay más líneas salimos del bucle infinito
             if not line:
                 break
