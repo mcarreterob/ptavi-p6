@@ -11,7 +11,6 @@ import sys
 
 # Dirección IP del servidor.
 SERVER = 'localhost'
-#PORT = 6001
 
 try:
     metodo = sys.argv[1]
@@ -38,7 +37,7 @@ data = my_socket.recv(1024)
 print('Recibido -- ', data.decode('utf-8'))
 
 response = data.decode('utf-8')
-slices =  response.split()
+slices = response.split()
 if slices[1] == '100' and slices[4] == '180' and slices[7] == '200':
     method = 'ACK'
     AutoLINE = method + ' sip:' + datos.split(':')[0] + ' SIP/2.0\r\n\r\n'

@@ -22,9 +22,6 @@ class EchoHandler(socketserver.DatagramRequestHandler):
     """
 
     def handle(self):
-        # Escribe dirección y puerto del cliente (de tupla client_address)
-        #ip = self.client_address[0]
-        #PORT = self.client_address[1]
         while 1:
             # Leyendo línea a línea lo que nos envía el cliente
             line = self.rfile.read()
@@ -44,7 +41,7 @@ class EchoHandler(socketserver.DatagramRequestHandler):
                 self.wfile.write(b'SIP/2.0 200 OK\r\n\r\n')
             elif metodo == 'ACK':
                 aEjecutar = 'mp32rtp -i ' + IP + ' -p 23032 < ' + audio_file
-                print ('Vamos a ejecutar', aEjecutar)
+                print('Vamos a ejecutar', aEjecutar)
                 os.system(aEjecutar)
                 print('Finished transfer')
             elif metodo != 'INVITE' or metodo != 'BYE' or metodo != 'ACK':
