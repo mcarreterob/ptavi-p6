@@ -23,7 +23,6 @@ except IndexError:
 
 # Contenido que vamos a enviar
 LINE = metodo + ' sip:' + datos.split(':')[0] + ' SIP/2.0\r\n'
-print(ip)
 
 # Creamos el socket, lo configuramos y lo atamos a un servidor/puerto
 my_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
