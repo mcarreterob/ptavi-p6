@@ -40,7 +40,7 @@ response = data.decode('utf-8')
 slices = response.split()
 if slices[1] == '100' and slices[4] == '180' and slices[7] == '200':
     method = 'ACK'
-    AutoLINE = method + ' sip:' + datos.split(':')[0] + ' SIP/2.0\r\n\r\n'
+    AutoLINE = method + ' sip:' + datos.split(':')[0] + ' SIP/2.0'
     print('Enviando: ' + AutoLINE)
     my_socket.send(bytes(AutoLINE, 'utf-8') + b'\r\n\r\n')
 
